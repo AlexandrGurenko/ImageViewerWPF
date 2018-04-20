@@ -1,0 +1,79 @@
+﻿<Window x:Class="ImageViewerWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageViewerWPF"
+        mc:Ignorable="d"
+        Title="Галерея изображений - v.1.01" 
+        Height="900" Width="1600" WindowStartupLocation="CenterScreen"
+        Icon="Images/ico.ico">
+    <Window.Resources>
+        <local:Transformer Scale="0.8" x:Key="transformerID"/>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Folder">
+                    <MenuItem Name="open" Header="Open" Click="open_Click"/>
+                    <MenuItem Name="close" Header="Close" Click ="close_Click"/>
+                    <MenuItem Name="exit" Header="Exit" Click="exit_Click"/>
+                </MenuItem>
+                <MenuItem Header="About">
+                    <MenuItem Name="proga" Header="Program" Click="proga_Click"/>
+                </MenuItem>
+            </Menu>
+            <ListBox Name="filesList" DockPanel.Dock="Left" Width="250" 
+                     FontSize="16" SelectionChanged="filesList_SelectionChanged">
+                
+            </ListBox>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="20, 10"/>
+                        <Setter Property="Padding" Value="0, 5"/>
+                        <Setter Property="FontSize" Value="12"/>
+                    </Style>
+                    <Style TargetType="Slider">
+                        <Setter Property="Margin" Value="20, 0"/>
+                    </Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Margin" Value="20, 0, 20, 5"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="next" Content="Next" Margin="40, 10, 0, 10" Click="next_Click"/>
+                <Button Name="back" Content="Back" Grid.Column="1" Click="back_Click"/>
+                <Expander Name="infoBox" Grid.Column="2" Header="Информация об изображении">
+                    <TextBlock Name="info" Text="Здесь будет информация об изображении... "
+                               FontSize="16" Foreground="Navy"/>
+                </Expander>
+                <Grid Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Slider Name="zoom" Minimum="0" Maximum="100"
+                            TickPlacement="Both" TickFrequency="5" Value="80"
+                            ValueChanged="zoom_ValueChanged"/>
+                    <ProgressBar Name="progress" Grid.Row="1" 
+                                 Minimum="0" Maximum="10" Value="0" Foreground="#FF068F00"/>
+                </Grid>
+            </Grid>
+            <Image Name="image" Source="Images/logo.jpg">
+                <Image.RenderTransform>
+                    <ScaleTransform CenterX="500" CenterY="300"
+                                    ScaleX="{Binding Source={StaticResource transformerID}, 
+                                            Path=Scale, Mode=OneWay}" 
+                                    ScaleY="{Binding Source={StaticResource transformerID}, 
+                                            Path=Scale, Mode=OneWay}"/>
+                </Image.RenderTransform>
+            </Image>
+        </DockPanel>
+    </Grid>
+</Window>
